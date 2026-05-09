@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 PriVi-SPECTER v4.5 — Forensic Credential Analysis Suite
-Developed by Prince Ubebe | PriViSecurity
+Developed by PriViSecurity
 """
 
 import secrets
@@ -19,6 +19,7 @@ import difflib
 from colorama import Fore, init
 import getpass
 from fpdf import FPDF
+from fpdf.enums import XPos, YPos
 
 init(autoreset=True)
 
@@ -83,21 +84,21 @@ class PriViPDFReport(FPDF):
         self.set_xy(10, 10)
         self.set_font("helvetica", 'B', 20)
         self.set_text_color(255, 255, 255)
-        self.cell(0, 10, "PRIVI-SPECTER FORENSIC AUDIT", border=0, align='L', ln=True)
+        self.cell(0, 10, "PRIVI-SPECTER FORENSIC AUDIT", border=0, align='L', 
+                  new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         
         self.set_xy(10, 18)
         self.set_font("helvetica", '', 10)
         self.set_text_color(180, 180, 180)
-        self.cell(0, 10, f"Engine: v{VERSION} | Auditor: {self.author_name}", border=0, align='L', ln=True)
+        self.cell(0, 10, f"Engine: v{VERSION} | Auditor: {self.author_name}", border=0, align='L', 
+                  new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.ln(15)
 
     def footer(self):
         self.set_y(-15)
         self.set_font("helvetica", 'I', 8)
         self.set_text_color(128, 128, 128)
-        self.cell(0, 10,
-                  f"PriViSecurity Confidential - Page {self.page_no()}",
-                  align='C')
+        self.cell(0, 10, f"PriViSecurity Confidential - Page {self.page_no()}", align='C')
 
     def generate_report(self, results, batch=False):
         """Generate PDF for single or batch audit results."""
@@ -113,9 +114,11 @@ class PriViPDFReport(FPDF):
         # Signature
         self.ln(10)
         self.set_font("helvetica", 'BI', 13)
-        self.cell(0, 10, f"~ Signed: {self.author_name} ~", ln=True, align='R')
+        self.cell(0, 10, f"~ Signed: {self.author_name} ~", align='R', 
+                  new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.set_font("helvetica", 'I', 9)
-        self.cell(0, 5, f"Lead Cybersecurity Analyst | {self.author_name}", ln=True, align='R')
+        self.cell(0, 5, f"Cybersecurity Professional | {self.author_name}", align='R', 
+                  new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
         if not os.path.exists('reports'):
             os.makedirs('reports')
@@ -129,7 +132,7 @@ class PriViPDFReport(FPDF):
         # Risk Summary
         self.set_font("helvetica", 'B', 14)
         self.set_text_color(44, 62, 80)
-        self.cell(0, 10, "1. Executive Risk Rating", ln=True)
+        self.cell(0, 10, "1. Executive Risk Rating", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         
         score = r.get("score", 1)
         score_map = {
@@ -144,18 +147,19 @@ class PriViPDFReport(FPDF):
         self.set_fill_color(*color)
         self.set_text_color(255, 255, 255)
         self.set_font("helvetica", 'B', 12)
-        self.cell(50, 12, f"{label} ({score}/5)", border=0, fill=True, align='C', ln=True)
+        self.cell(50, 12, f"{label} ({score}/5)", border=0, fill=True, align='C', 
+                  new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.ln(5)
 
         # Technical Metrics
         self.set_text_color(0, 0, 0)
         self.set_font("helvetica", 'B', 11)
-        self.cell(0, 10, "2. Deep Forensic Analysis", ln=True)
+        self.cell(0, 10, "2. Deep Forensic Analysis", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         
         self.set_font("helvetica", 'B', 10)
         self.set_fill_color(240, 240, 240)
         self.cell(70, 10, " Metric", border=1, fill=True)
-        self.cell(0,  10, " Result", border=1, fill=True, ln=True)
+        self.cell(0,  10, " Result", border=1, fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         
         self.set_font("helvetica", '', 10)
         rows = [
@@ -167,31 +171,31 @@ class PriViPDFReport(FPDF):
         ]
         for m, v in rows:
             self.cell(70, 9, f" {m}", border=1)
-            self.cell(0,  9, f" {_pdf_safe(str(v))}", border=1, ln=True)
+            self.cell(0,  9, f" {_pdf_safe(str(v))}", border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
         weaknesses = r.get("weaknesses", [])
         if weaknesses:
             self.ln(5)
             self.set_font("helvetica", 'B', 11)
-            self.cell(0, 10, "3. Detected Vulnerabilities", ln=True)
+            self.cell(0, 10, "3. Detected Vulnerabilities", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             self.set_font("helvetica", '', 10)
             for w in weaknesses:
-                self.multi_cell(0, 7, f" - {_pdf_safe(w)}", border='L')
+                self.multi_cell(0, 7, f" - {_pdf_safe(w)}", border='L', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
         recs = r.get("recommendations", [])
         if recs:
             self.ln(5)
             self.set_font("helvetica", 'B', 11)
             self.set_fill_color(235, 245, 255)
-            self.cell(0, 10, " 4. Mitigation Strategies", ln=True, fill=True)
+            self.cell(0, 10, " 4. Mitigation Strategies", fill=True, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             self.set_font("helvetica", '', 10)
             for rec in recs:
-                self.multi_cell(0, 7, f" [*] {_pdf_safe(rec)}")
+                self.multi_cell(0, 7, f" [*] {_pdf_safe(rec)}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     def _write_batch_section(self, results):
         """Write a batch summary table."""
         self.set_font("helvetica", 'B', 14)
-        self.cell(0, 10, "Batch Forensic Summary", ln=True)
+        self.cell(0, 10, "Batch Forensic Summary", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.ln(2)
 
         # Header
@@ -203,7 +207,7 @@ class PriViPDFReport(FPDF):
         self.cell(20,  8, "Score",   border=1, fill=True, align='C')
         self.cell(25,  8, "Shannon", border=1, fill=True, align='C')
         self.cell(35,  8, "Crack Time", border=1, fill=True, align='C')
-        self.cell(45,  8, "Breach Intel",    border=1, fill=True, ln=True, align='C')
+        self.cell(45,  8, "Breach Intel",    border=1, fill=True, align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         self.set_text_color(0, 0, 0)
 
         self.set_font("helvetica", size=8)
@@ -212,10 +216,10 @@ class PriViPDFReport(FPDF):
             masked = pwd[0] + "*" * (len(pwd) - 2) + pwd[-1] if len(pwd) > 2 else "***"
             self.cell(10,  8, str(idx),              border=1, align='C')
             self.cell(55,  8, _pdf_safe(masked),                          border=1)
-            self.cell(20,  8, f"{r.get('score', 'N/A')}/5",            border=1, align='C')
-            self.cell(25,  8, _pdf_safe(str(r.get("shannon", "N/A"))),           border=1, align='C')
-            self.cell(35,  8, _pdf_safe(r.get("crack_time", "N/A")),        border=1, align='C')
-            self.cell(45,  8, _pdf_safe(r.get("hibp", "N/A")),              border=1, ln=True, align='C')
+            self.cell(20,  8, f"{r.get('score', 'N/A')}/5",             border=1, align='C')
+            self.cell(25,  8, _pdf_safe(str(r.get("shannon", "N/A"))),            border=1, align='C')
+            self.cell(35,  8, _pdf_safe(r.get("crack_time", "N/A")),         border=1, align='C')
+            self.cell(45,  8, _pdf_safe(r.get("hibp", "N/A")),              border=1, align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -534,12 +538,12 @@ class PriViSpecter:
         if patterns:
             print(self._box_row("FORENSIC FINDINGS:", ""))
             for label, detail in patterns:
-                print(self._box_row(f"  [{label}] ", f"{Fore.RED}{detail}"))
+                print(self._box_row(f"   [{label}] ", f"{Fore.RED}{detail}"))
             print(mid)
 
         print(self._box_row("MITIGATION ROADMAP:", ""))
         for rec in recs:
-            print(self._box_row("  + ", f"{Fore.CYAN}{rec}"))
+            print(self._box_row("   + ", f"{Fore.CYAN}{rec}"))
         print(bot)
 
         # ── Post-audit options ───────────────────────────────────
@@ -605,7 +609,8 @@ class PriViSpecter:
             pool_entropy = len(pwd) * math.log2(pool) if pool > 0 else 0
             seconds = (2 ** pool_entropy) / 100_000_000_000 if pool_entropy > 0 else 0
             leak    = self.get_leak_count(pwd)
-            patterns, freq_pen, _ = self.detect_patterns(pwd), *self.char_frequency_score(pwd)
+            patterns = self.detect_patterns(pwd)
+            freq_pen, freq_detail = self.char_frequency_score(pwd)
             score, grade = self.compute_score(pool_entropy, leak, patterns, freq_pen)
 
             results.append({
