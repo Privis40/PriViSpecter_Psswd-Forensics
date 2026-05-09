@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PriVi-SPECTER v4.5 — Forensic Credential Analysis Suite
+PriVi-SPECTER — Forensic Credential Analysis Suite
 Developed by PriViSecurity
 """
 
@@ -28,7 +28,7 @@ init(autoreset=True)
 # ─────────────────────────────────────────────────────────────────
 
 AUTHOR  = "PriViSecurity"
-VERSION = "4.5"
+VERSION = "1.0"
 
 WORDLIST = [
     "correct", "horse", "battery", "staple", "river", "cloud",
