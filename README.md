@@ -2,7 +2,7 @@
 
 # 🛡️ PriViSpecter — Forensic Credential Analysis Suite: Developed by PriViSecurity
 
-![PriViSpecter Dashboard](PriViSpecter.PNG)
+![PriViSpecter Dashboard](PriVi-Specter.PNG)
 
 </div>
 
