@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║       PriVi-SPECTER v2.0                                         ║
+║       PriVi-SPECTER v1.0                                         ║
 ║       Forensic Credential Analysis Suite                         ║
 ║       Developed by Prince Ubebe | PriViSecurity                  ║
 ╚══════════════════════════════════════════════════════════════════╝
